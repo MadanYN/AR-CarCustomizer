@@ -18,19 +18,19 @@ public class RotateAndScale : MonoBehaviour
 
     void Start()
     {
-        scaleSlider = GameObject.Find("ScaleSliderLombo").GetComponent<Slider>();
+        scaleSlider = GameObject.Find("ScaleSliderLambo").GetComponent<Slider>();
         scaleSlider.minValue = scaleMinValue;
         scaleSlider.maxValue = scaleMaxValue;
 
         scaleSlider.onValueChanged.AddListener(ScaleSliderUpdate);
 
-        rotateSlider = GameObject.Find("RotateSliderLombo").GetComponent<Slider>();
+        rotateSlider = GameObject.Find("RotateSliderLambo").GetComponent<Slider>();
         rotateSlider.minValue = rotateMinValue;
         rotateSlider.maxValue = rotateMaxValue;
 
         rotateSlider.onValueChanged.AddListener(RotateSliderUpdate);
 
-        heightSlider = GameObject.Find("HeightSliderLombo").GetComponent<Slider>();
+        heightSlider = GameObject.Find("HeightSliderLambo").GetComponent<Slider>();
         heightSlider.minValue = heightMinValue;
         heightSlider.maxValue = heightMaxValue;
 
