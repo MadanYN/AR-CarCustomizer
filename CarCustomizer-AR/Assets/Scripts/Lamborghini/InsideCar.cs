@@ -5,61 +5,42 @@ using Vuforia;
 
 public class InsideCar : MonoBehaviour
 {
-    public Vector3 initPos;
+    private Touch initTouch = new Touch();
     public Camera cam;
-    private int pixelDistToDetect = 10;
-    private bool fingerdown;
-    private float _rotationY = 0;
 
-    private void Update()
+    private float rotX = 0f;
+    private float rotY = 0f;
+    private Vector3 origRot;
+
+    public float rotSpeed = 0.5f;
+    public float dir = -1f;
+    private void Start()
     {
-        if (fingerdown == false && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Began)
-        {
-            fingerdown = true;
-            initPos = Input.touches[0].position;
-        }
-        if (fingerdown)
-        {
-            if (Input.touches[0].position.x > initPos.x + pixelDistToDetect)
-            {
-                transform.localEulerAngles = new Vector3(0, -10, 0);
-                Debug.Log("right");
-            }
-            if (Input.touches[0].position.x < initPos.x + pixelDistToDetect)
-            {
-                transform.localEulerAngles = new Vector3(0, 10, 0);
-            }
-            if (Input.touches[0].position.y > initPos.y + pixelDistToDetect)
-            {
-                transform.localEulerAngles = new Vector3(10, 0, 0);
-            }
-            if (Input.touches[0].position.y > initPos.y + pixelDistToDetect)
-            {
-                transform.localEulerAngles = new Vector3(-10, 0, 0);
-            }
-        }
-        if(fingerdown && Input.touchCount > 0 && Input.touches[0].phase == TouchPhase.Ended)
-        {
-            fingerdown = false;
-        }
+        origRot = cam.transform.eulerAngles;
+        rotX = origRot.x;
+        rotY = origRot.y;
+    }
 
-        if(fingerdown==false && Input.GetMouseButton(0))
+    private void FixedUpdate()
+    {
+        foreach(Touch touch in Input.touches)
         {
-            fingerdown = true;
-            initPos = Input.mousePosition;
-        }
-        if (fingerdown)
-        {
-            if (Input.mousePosition.x > initPos.x + pixelDistToDetect)
+            if (touch.phase == TouchPhase.Began)
             {
-                _rotationY += 10;
-                transform.localEulerAngles = new Vector3(0, _rotationY, 0);
-                Debug.Log("Yes");
+                initTouch = touch;
             }
-        }
-        if(fingerdown && Input.GetMouseButton(0))
-        {
-            fingerdown = false;
+            if (touch.phase == TouchPhase.Moved)
+            {
+                float deltaX = initTouch.position.x - touch.position.x;
+                float deltaY = initTouch.position.y - touch.position.y;
+
+                rotX -= deltaY * Time.deltaTime * rotSpeed * dir;
+                rotY += deltaX * Time.deltaTime * rotSpeed * dir;
+            }
+            if (touch.phase == TouchPhase.Ended)
+            {
+                initTouch = new Touch();
+            }
         }
     }
 
