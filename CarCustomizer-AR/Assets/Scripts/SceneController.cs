@@ -13,6 +13,10 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene("ARScene");
     }
+    public void InideCar()
+    {
+        SceneManager.LoadScene("insideCar");
+    }
     public void QuitScene()
     {
         Application.Quit();
